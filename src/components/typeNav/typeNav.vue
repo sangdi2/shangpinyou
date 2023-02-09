@@ -1,7 +1,7 @@
 <template>
   <div class="type-nav">
     
-            <div class="container">
+            <div class="container"  @mouseenter="enter" @mouseleave="leave">
                 <h2 class="all">全部商品分类</h2>
                 <nav class="nav">
                     <a href="###">服装城</a>
@@ -13,23 +13,22 @@
                     <a href="###">有趣</a>
                     <a href="###">秒杀</a>
                 </nav>
-                <div class="sort">
-                    <div class="all-sort-list2">
+                <div class="sort" v-show="show">
+                    <div class="all-sort-list2" @click="goSearch">
                         <div class="item" v-for="(c1,index) in getCategoryList" :key="c1.categoryId">
                             <h3 @mouseenter="changeIndex(index)" :class="currentIndex==index?'cur':''" @mouseleave="leaveIndex">
-                                <a href="">{{c1.categoryName}}</a>
+                                <a  :data-categoryName="c1.categoryName" :data-category1Id="c1.categoryId">{{c1.categoryName}}</a>
                             </h3>
                             <div class="item-list clearfix" :style="{display:currentIndex==index?'block':'none'}">
                                 <div class="subitem">
                                     <dl class="fore" v-for="c2 in c1.categoryChild" :key="c2.categoryId">
                                         <dt>
-                                            <a href="">{{c2.categoryName}}</a>
+                                            <a :data-categoryName="c2.categoryName" :data-category2Id="c2.categoryId">{{c2.categoryName}}</a>
                                         </dt>
                                         <dd>
                                             <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                                                <a href="">{{c3.categoryName}}</a>
-                                            </em>
-                                            
+                                                <a :data-categoryName="c3.categoryName" :data-category3Id="c3.categoryId">{{c3.categoryName}}</a>
+                                            </em>                                            
                                         </dd>
                                     </dl>
                                 </div>
@@ -43,10 +42,14 @@
 </template>
 
 <script>
-
+import throttle from 'lodash/throttle'
 export default {
+  
   mounted(){
     this.$store.dispatch('getcategoryList')
+    if(this.$route.path!=='/home'){
+      this.show=false
+    }
   },
   computed:{
     getCategoryList(){
@@ -55,15 +58,51 @@ export default {
   },
   data(){
     return {
-        currentIndex:-1
+        currentIndex:-1,
+        show:true
     } 
   },
   methods:{
-    changeIndex(index){
-        this.currentIndex=index
-    },
+    changeIndex:throttle(function(index){
+      this.currentIndex=index
+    },50),
+    
     leaveIndex(){
         this.currentIndex=-1
+    },
+    enter(){
+      if(this.$route.path!=='/home'){
+        this.show=true
+      }
+    },
+    leave(){
+      if(this.$route.path!=='/home'){
+        this.show=false
+      }
+    },
+    goSearch(event){
+      let element=event.target
+      let {categoryname,category1id,category2id,category3id} = element.dataset
+      
+      if(categoryname){
+        let location={name:"search"}
+        let query ={categoryName:categoryname}
+        if(category1id){
+          query.category1Id=category1id
+        }else if(category2id){
+          query.category2Id=category2id
+        }else{
+          query.category3Id=category3id
+        }
+        if(this.$route.params){
+          location.params=this.$route.params
+         
+        }
+        location.query=query
+        this.$router.push(location)
+        
+      }
+      
     }
   }
 }

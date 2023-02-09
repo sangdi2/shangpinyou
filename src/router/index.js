@@ -8,7 +8,7 @@ import Search from '../pages/Search/search'
 
 Vue.use(VueRouter)
 
-const routes = [
+const routes = [        
   {
     path:"/home",
     component:Home,
@@ -25,7 +25,7 @@ const routes = [
     meta:{show:false}
   },
   {
-    path:"/search",
+    path:"/search:kw?",
     component:Search,
     meta:{show:true},
     name:"search"

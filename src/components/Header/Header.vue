@@ -54,7 +54,14 @@ export default {
     },
     methods:{
         goSearch(){
-            this.$router.push({name:"search",query:{kw:this.kw}})
+          let location={name:"search",params:{kw:this.kw}}
+            if(this.$route.query){
+              
+              location.query=this.$route.query
+              
+            }
+            console.log(location)
+            this.$router.push(location)
         }
     }
 
