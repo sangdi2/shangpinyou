@@ -5,8 +5,8 @@
     <recommend></recommend>
     <rank></rank>
     <like></like>
-    <floor></floor>
-    <floor></floor>
+    <floor v-for="(item,index) in floorList" :key="item.id" :floor="item"></floor>
+    
     <brand></brand>
    
   </div>
@@ -23,6 +23,14 @@ import floor from '../../components/Floor/floor.vue'
 import brand from '../../components/Brand/brand.vue'
 
 export default {
+  mounted(){
+    this.$store.dispatch('getFloorList')
+  },
+  computed:{
+    floorList(){
+      return this.$store.state.home.floorList
+    }
+  },
  
 components:{
     typeNav,
