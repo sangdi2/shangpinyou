@@ -23,19 +23,7 @@
                                 <img :src="floor.imgUrl" />
                             </div>
                             <div class="floorBanner">
-                                <div class="swiper-container" id="floor1Swiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide" v-for="(item,index) in floor.carouselList" :key="item.id">
-                                            <img :src="item.imgUrl">
-                                        </div>    
-                                    </div>
-                                    <!-- 如果需要分页器 -->
-                                    <div class="swiper-pagination"></div>
-
-                                    <!-- 如果需要导航按钮 -->
-                                    <div class="swiper-button-prev"></div>
-                                    <div class="swiper-button-next"></div>
-                                </div>
+                                <Crasoul :list="floor.carouselList"/>
                             </div>
                             <div class="split">
                                 <span class="floor-x-line"></span>
@@ -66,32 +54,12 @@
 </template>
 
 <script>
-import Swiper from 'swiper';
+import Crasoul from '../Crasoul/Crasoul.vue'
+
 export default {
-  props:['floor'],
-  mounted(){
-    var mySwiper = new Swiper(
-            ".swiper-container",
-            {
-              autoplay:true,
-              loop: true, // 循环模式选项
-
-              // 如果需要分页器
-              pagination: {
-                el: ".swiper-pagination",
-              },
-
-              // 如果需要前进后退按钮
-              navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-              },
-
-              // 如果需要滚动条
-              
-            }
-          );
-  }
+  components: { Crasoul },
+  props:['floor']
+  
 }
 </script>
 

@@ -3,23 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="(item, index) in bannerlist"
-              :key="item.id"
-            >
-              <img :src="item.imgUrl" />
-            </div>
-          </div>
-
-          <div class="swiper-pagination"></div>
-
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-          
-        </div>
+        <Crasoul :list="bannerlist"/>
       </div>
      
       <div class="right">
@@ -96,10 +80,12 @@
 </template>
 
 <script>
+
 // import Swiper from "swiper";
-import Swiper from 'swiper';
+
 
 export default {
+
   mounted() {
     this.$store.dispatch("getBannerList");
   },
@@ -108,37 +94,7 @@ export default {
       return this.$store.state.home.bannerList;
     },
   },
-  watch: {
-    bannerlist: {
-      handler(newValue, oldValue) {
-        this.$nextTick(() => {
-          
-          var mySwiper = new Swiper(
-            ".swiper-container",
-            {
-              autoplay:true,
-              loop: true, // 循环模式选项
-
-              // 如果需要分页器
-              pagination: {
-                el: ".swiper-pagination",
-              },
-
-              // 如果需要前进后退按钮
-              navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-              },
-
-              // 如果需要滚动条
-              
-            }
-          );
-          
-        });
-      },
-    },
-  },
+ 
 };
 </script>
 

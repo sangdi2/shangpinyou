@@ -25,11 +25,13 @@ import brand from '../../components/Brand/brand.vue'
 export default {
   mounted(){
     this.$store.dispatch('getFloorList')
+    
   },
   computed:{
     floorList(){
       return this.$store.state.home.floorList
     }
+  
   },
  
 components:{
