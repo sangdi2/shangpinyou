@@ -10,6 +10,12 @@ const mutations={
 const getters={
     getGoodsList(state){
         return state.searchinfo.goodsList
+    },
+    getAttrsList(state){
+        return state.searchinfo.attrsList
+    },
+    getTradeMarkList(state){
+        return state.searchinfo.trademarkList
     }
 };
 const actions={
