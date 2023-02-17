@@ -63,6 +63,11 @@ export default {
             console.log(location)
             this.$router.push(location)
         }
+    },
+    mounted(){
+      this.$bus.$on('remove',()=>{
+        this.kw=''
+      })
     }
 
 }

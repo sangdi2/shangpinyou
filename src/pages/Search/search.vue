@@ -13,6 +13,7 @@
           <ul class="fl sui-tag">
             
             <li class="with-x" v-if="searchParams.categoryName">{{ searchParams.categoryName }}<i @click="removeCategoryName">×</i></li>
+            <li class="with-x" v-if="searchParams.kw">{{ searchParams.kw }}<i @click="removeKeyword">×</i></li>
             
           </ul>
         </div>
@@ -176,6 +177,14 @@ export default {
       if(this.$route.params){
         this.$router.push({name:'search',params:this.$route.params})
       }
+    },
+    removeKeyword(){
+      this.searchParams.kw=undefined
+      this.getData()
+      if(this.$route.query){
+        this.$router.push({name:'search',query:this.$route.query})
+      }
+      this.$bus.$emit('remove')
     }
   },
   watch:{
