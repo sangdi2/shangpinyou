@@ -14,12 +14,14 @@
             
             <li class="with-x" v-if="searchParams.categoryName">{{ searchParams.categoryName }}<i @click="removeCategoryName">×</i></li>
             <li class="with-x" v-if="searchParams.kw">{{ searchParams.kw }}<i @click="removeKeyword">×</i></li>
+            <li class="with-x" v-if="searchParams.trademark">{{ searchParams.trademark }}<i @click="removeTrademark">×</i></li>
+            <li class="with-x"  v-for="(item,index) in searchParams.props" :key="index">{{ item.split(":")[1] }}<i @click="removesttrValue(index)">×</i></li>
             
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @gettmName="getTmName" @sendattrValue="getattrValue"/>
 
         <!--details-->
         <div class="details clearfix">
@@ -185,6 +187,25 @@ export default {
         this.$router.push({name:'search',query:this.$route.query})
       }
       this.$bus.$emit('remove')
+    },
+    getTmName(tmName){
+      this.searchParams.trademark=tmName
+      this.getData()
+    },
+    removeTrademark(){
+      this.searchParams.trademark=undefined
+      this.getData()
+    },
+    getattrValue(item,item2){
+      let props=`${item.sttrId}:${item2}:${item.attrName}`
+      if(this.searchParams.props.indexOf(props)==-1){
+        this.searchParams.props.push(props)
+      }
+      this.getData()
+    },
+    removesttrValue(index){
+      this.searchParams.props.splice(index,1)
+      this.getData()
     }
   },
   watch:{

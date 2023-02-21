@@ -4,7 +4,7 @@
       <div class="fl key brand">品牌</div>
       <div class="value logos">
         <ul class="logo-list">
-          <li v-for="(item,index) in trademarkList" :key="item.tmId">{{ item.tmName }}</li>
+          <li v-for="(item,index) in trademarkList" :key="item.tmId" @click="emitName(item.tmName)">{{ item.tmName }}</li>
         </ul>
       </div>
       <div class="ext">
@@ -16,7 +16,7 @@
       <div class="fl key">{{ item.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(item2,index2) in item.attrValueList" :key="index2">
+          <li v-for="(item2,index2) in item.attrValueList" :key="index2" @click="getattrValue(item,item2)">
             <a>{{ item2 }}</a>
           </li>
         </ul>
@@ -35,6 +35,14 @@
       },
       trademarkList(){
         return this.$store.getters.getTradeMarkList
+      }
+    },
+    methods:{
+      emitName(tmName){
+        this.$emit('gettmName',tmName)
+      },
+      getattrValue(item,item2){
+        this.$emit('sendattrValue',item,item2)
       }
     }
   }
